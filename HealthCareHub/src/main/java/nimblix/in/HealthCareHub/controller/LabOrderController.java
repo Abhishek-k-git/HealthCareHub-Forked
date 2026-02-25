@@ -1,8 +1,6 @@
 package nimblix.in.HealthCareHub.controller;
 
-import jakarta.validation.Valid;
-import nimblix.in.HealthCareHub.model.LabOrder;
-import nimblix.in.HealthCareHub.request.LabOrderRequest;
+import nimblix.in.HealthCareHub.model.LabOrderStatus;
 import nimblix.in.HealthCareHub.response.LabOrderResponse;
 import nimblix.in.HealthCareHub.service.LabOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,12 @@ public class LabOrderController {
     @PutMapping("/{id}/status")
     public ResponseEntity<LabOrderResponse> updateLabOrderStatus(
             @PathVariable Long id,
-            @Valid @RequestBody LabOrderRequest request
+            @RequestBody LabOrderStatus status
     ) {
-        if (id == null) {
-            throw new IllegalArgumentException("Invalid lab order ID");
+        if (id == null || status == null) {
+            throw new IllegalArgumentException("Invalid parameters");
         }
-        LabOrderResponse updatedOrderResponse = labOrderService.updateLabOrderStatus(id, request.getStatus());
+        LabOrderResponse updatedOrderResponse = labOrderService.updateLabOrderStatus(id, status);
         return ResponseEntity.ok(updatedOrderResponse);
     }
 }
