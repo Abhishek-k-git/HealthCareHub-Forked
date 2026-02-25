@@ -31,6 +31,7 @@ public class HealthCareConstants {
     public static  String STATUS ="status" ;
     public static String ACTIVE = "active";
     public static String PENDING = "PENDING";
+    public static String COMPLETED = "COMPLETED";
     public static String FAILED = "FAILED";
     public static String MESSAGE ="message: " ;
     public static final String ADMIN_ROLE="ADMIN";

@@ -2,6 +2,7 @@ package nimblix.in.HealthCareHub.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import nimblix.in.HealthCareHub.constants.HealthCareConstants;
 import nimblix.in.HealthCareHub.utility.HealthCareUtil;
 
 @Entity
@@ -27,9 +28,8 @@ public class LabOrder {
     @Column(name = "test_name")
     private String testName;
 
-    @Enumerated(EnumType.STRING) // PENDING, COMPLETED
-    @Column(name = "status")
-    private LabOrderStatus status;
+    @Column(name="status", nullable=false) // {PENDING, COMPLETED}
+    private String status;
 
     @Column(name = "result")
     private String result;
@@ -42,12 +42,23 @@ public class LabOrder {
 
     @PrePersist
     protected void onCreate(){
-        createdTime= HealthCareUtil.changeCurrentTimeToLocalDateFromGmtToISTInString();
-        updatedTime= HealthCareUtil.changeCurrentTimeToLocalDateFromGmtToISTInString();
+        String now = HealthCareUtil.changeCurrentTimeToLocalDateFromGmtToISTInString();
+        createdTime = now;
+        updatedTime = now;
+        validateStatus();
     }
 
     @PreUpdate
     protected void onUpdate(){
-        this.updatedTime= HealthCareUtil.changeCurrentTimeToLocalDateFromGmtToISTInString();
+        updatedTime = HealthCareUtil.changeCurrentTimeToLocalDateFromGmtToISTInString();
+        validateStatus();
+    }
+
+    private void validateStatus() {
+        if (status == null ||
+                (!HealthCareConstants.PENDING.equals(status) &&
+                        !HealthCareConstants.COMPLETED.equals(status))) {
+            throw new IllegalArgumentException("Invalid lab order status");
+        }
     }
 }

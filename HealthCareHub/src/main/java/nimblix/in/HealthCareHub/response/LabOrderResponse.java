@@ -1,7 +1,6 @@
 package nimblix.in.HealthCareHub.response;
 
 import lombok.*;
-import nimblix.in.HealthCareHub.model.LabOrderStatus;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ public class LabOrderResponse {
     private String doctorName;
 
     private String testName;
-    private LabOrderStatus status;
+    private String status;
     private String result;
 
     private String createdTime;
