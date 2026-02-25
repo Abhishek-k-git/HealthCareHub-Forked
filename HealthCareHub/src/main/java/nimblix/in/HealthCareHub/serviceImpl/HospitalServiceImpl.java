@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import nimblix.in.HealthCareHub.model.Hospital;
 import nimblix.in.HealthCareHub.repository.HospitalRepository;
 import nimblix.in.HealthCareHub.request.HospitalRegistrationRequest;
+import nimblix.in.HealthCareHub.response.LocationResponse;
 import nimblix.in.HealthCareHub.service.HospitalService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -34,5 +37,10 @@ public class HospitalServiceImpl implements HospitalService {
         hospitalRepository.save(hospital);
 
         return "Hospital Registered Successfully";
+    }
+
+    @Override
+    public List<LocationResponse> getDistinctLocations() {
+        return hospitalRepository.findDistinctLocations();
     }
 }
