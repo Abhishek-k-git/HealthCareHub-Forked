@@ -1,11 +1,15 @@
 package nimblix.in.HealthCareHub.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import nimblix.in.HealthCareHub.exception.UserNotFoundException;
 import nimblix.in.HealthCareHub.model.Hospital;
 import nimblix.in.HealthCareHub.repository.HospitalRepository;
 import nimblix.in.HealthCareHub.request.HospitalRegistrationRequest;
+import nimblix.in.HealthCareHub.response.LocationResponse;
 import nimblix.in.HealthCareHub.service.HospitalService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -34,5 +38,15 @@ public class HospitalServiceImpl implements HospitalService {
         hospitalRepository.save(hospital);
 
         return "Hospital Registered Successfully";
+    }
+
+    @Override
+    public List<LocationResponse> getDistinctLocations() {
+        List<LocationResponse> locations = hospitalRepository.findDistinctLocations();
+        if (locations.isEmpty()) {
+            // 'UserNotFoundException' can we renamed to 'ResourceNotFound' and used generically
+            throw new UserNotFoundException("No hospital locations found");
+        }
+        return locations;
     }
 }
